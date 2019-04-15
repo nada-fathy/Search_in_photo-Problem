@@ -1,0 +1,121 @@
+package eg.edu.alexu.csd.datastructure.iceHockey;
+
+import java.awt.Point;
+
+public interface IPlayersFinder {
+	public java.awt.Point[] findPlayers(String[] photo,int team,int threshold);
+public class test implements IPlayersFinder {
+
+	public Point[] findPlayers(String[] photo, int team, int threshold) {
+		int i=0;
+		int j=0;
+		int row=photo.length;
+		int col=photo[0].length();
+		char arr[][]=new char[row][col];
+		for(i=0;i<row;i++) {
+			for(j=0;j<col;j++) {
+				arr[i][j]=photo[i].charAt(j);
+			}
+		}
+		i=0;
+		j=0;
+		int arr1[]=new int[4];
+		int flag=1;
+		for(i=0;i<4;i++) {
+			arr1[i]=0;
+		}
+		int temb0=arr1[0]-1;
+		int temb1=arr1[1]+1;
+		int temb2=arr1[2]-1;
+		int temb3=arr1[3]+1;
+		String result1;
+		
+		int x;
+		int y;
+		int s[]=null;
+		int count;
+		for(i=0;i<row;i++) {
+			for(j=0;j<col;j++) {
+				if(arr[i][j]==team) {
+					while(flag==1) {
+						flag=0;
+						if(arr[arr1[0]][temb2]==team && temb2>=0 && arr[arr1[0]][arr1[2]]==team) {
+							temb2--;
+							flag=1;
+							arr1[2]--;
+						}
+						
+						if(arr[arr1[1]][temb2]==team && temb2>=0 && arr[arr1[1]][arr1[2]]==team) {
+							temb2--;
+							flag=1;
+							arr1[2]--;
+						}
+						if(arr[temb1][arr1[2]]==team && temb1<row && arr[arr1[1]][arr1[2]]==team) {
+							temb1++;
+							flag=1;
+							arr1[1]++;
+						}
+						if(arr[temb1][arr1[3]]==team && temb1<row && arr[arr1[1]][arr1[3]]==team) {
+							temb1++;
+							flag=1;
+							arr1[1]++;
+						}
+						if(arr[arr1[1]][temb3]==team && temb3<col && arr[arr1[1]][arr1[3]]==team) {
+							temb3++;
+							flag=1;
+							arr1[3]++;
+						}
+						if(arr[arr1[0]][temb3]==team && temb3<col && arr[arr1[0]][arr1[3]]==team) {
+							temb3++;
+							flag=1;
+							arr1[3]++;
+						}
+						if(arr[temb0][arr1[3]]==team && temb0>=0 && arr[arr1[0]][arr1[3]]==team) {
+							temb0--;
+							flag=1;
+							arr1[0]--;
+						}
+						if(arr[temb0][arr1[2]]==team && temb0>=0 && arr[arr1[0]][arr1[2]]==team) {
+							temb0--;
+							flag=1;
+							arr1[0]--;
+						}
+						
+					}
+				}
+				x=arr1[0]+1+arr1[1];
+				y=arr1[2]+1+arr1[3];
+				count=0;
+				if(threshold>(x*y)) {
+					arr1[0]=i;
+					arr1[1]=i;
+					arr1[2]=j;
+					arr1[3]=j;
+				}
+				else {
+					s[count]=x;
+					s[++count]=y;
+					count++;
+					arr1[0]=i;
+					arr1[1]=i;
+					arr1[2]=j;
+					arr1[3]=j;
+				}
+				
+			}
+		}
+		
+		result1=s.toString();
+		Point[]list=new Point[(s.length)/2];
+		i=0;
+		j=0;
+		while(i<(s.length)/2) {
+			list[i]=new Point(s[j],s[++j]);
+			j++;
+		}
+		return list;
+		
+		
+		
+	}
+}}
